@@ -1,0 +1,57 @@
+---
+title: "amom1"
+format: html
+editor: visual
+---
+
+```{r}
+setwd("D:/AMOM")
+```
+
+```{r}
+install.packages('forecast')
+```
+
+```{r}
+library('forecast')
+```
+
+```{r}
+class(gas)
+gas
+```
+
+```{r}
+library(tidyverse)
+df2 <-  as.data.frame(gas)
+view(df2)
+```
+
+```{r}
+cycle(gas)
+```
+
+```{r}
+boxplot(split(gas,cycle(gas)),col=rainbow(12),border = 'black',main = "Monthly gas production Count",names = month.abb,outline = FALSE)
+plot(gas)
+```
+
+```{r}
+data2 <- ts(gas,frequency = 12)
+d2 <- decompose(data2,"multiplicative")
+plot(d2)
+
+```
+
+```{r}
+model2 <- auto.arima(gas)
+summary(model2)
+
+```
+
+```{r}
+# h = 10*12 because, forecast is for 10 years for all 12 months
+f2<-forecast(model2, level=c(95), h=10*12)
+plot(f2)
+
+```
